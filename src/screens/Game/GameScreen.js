@@ -7,6 +7,8 @@ import { useGameInfo, useMinusHeart } from "../../context/GameContext";
 import { checkTime } from "../../utils/checkSomething";
 import { CHECK_GO_HOME, CANCEL, GO_HOME } from "../../constants/strings";
 
+import GameFeed from "../../components/GameFeed";
+import Button from "../../components/Button";
 import Heart from "../../components/Heart";
 import Timer from "../../components/Timer";
 
@@ -15,6 +17,20 @@ export default ({ onGoHome, onGameOver }) => {
   const minusHeart = useMinusHeart();
   const [showAnswer, setShowAnswer] = useState(true);
   const [clickedBomb, setClickedBomb] = useState(false);
+
+  const checkGoHome = () => {
+    Alert.alert(
+      CHECK_GO_HOME,
+      "",
+      [
+        { text: CANCEL, onPress: () => null, style: "cancel" },
+        { text: GO_HOME, onPress: onGoHome },
+      ],
+      { cancelable: true }
+    );
+
+    return true;
+  };
 
   /* 처음에 정답 보여 주는 시간 2/3초 간 정답 보여 주기 & heart 갯수 -1 */
   const showAnswerForHint = () => {
@@ -28,6 +44,17 @@ export default ({ onGoHome, onGameOver }) => {
       minusHeart();
     }
   };
+
+  const preventBackPress = () => {
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", preventBackPress);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", preventBackPress);
+  }, []);
 
   return (
     <View style={styles.screen}>
@@ -44,14 +71,25 @@ export default ({ onGoHome, onGameOver }) => {
               clickedBomb={clickedBomb}
             />
           </View>
+
           <View style={styles.heartContainer}>
             <Heart onPress={() => null} numOfHeart={heart} disabled={true} />
           </View>
         </View>
+
+        <GameFeed
+          onGameOver={onGameOver}
+          showAnswer={showAnswer}
+          setShowAnswer={setShowAnswer}
+          clickedBomb={clickedBomb}
+          setClickedBomb={setClickedBomb}
+        />
       </View>
 
       {/* FOOTER */}
-      <View style={styles.footer}></View>
+      <View style={styles.footer}>
+        <Button onPress={checkGoHome} disabled={showAnswer} content={"home"} />
+      </View>
     </View>
   );
 };
