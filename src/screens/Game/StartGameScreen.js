@@ -6,7 +6,9 @@ import { useGameInfo } from "../../context/GameContext";
 
 import colors from "../../constants/colors";
 import { CURRENT_STAGE, COMING_SOON, CANCEL } from "../../constants/strings";
+import { FLAG } from "../../utils/FontAwesomeSource";
 
+import AnimalScreen from "./AnimalScreen";
 import Card from "../../components/Card";
 import StartButton from "../../components/StartButton";
 import Heart from "../../components/Heart";
@@ -46,14 +48,16 @@ export default ({ onStartGame, getHeart }) => {
 
         <View style={styles.heartBox}>
           <Heart onPress={getHeart} numOfHeart={heart} disabled={gameEnd} />
-          <>
-            <View style={styles.arrowBox}>
-              <Arrow enoughHeart={false} direction={"up"} />
-            </View>
-            <View>
-              <GetHeartText enoughHeart={false} />
-            </View>
-          </>
+          {heart <= 1 ? (
+            <>
+              <View style={styles.arrowBox}>
+                <Arrow enoughHeart={false} direction={"up"} />
+              </View>
+              <View>
+                <GetHeartText enoughHeart={false} />
+              </View>
+            </>
+          ) : null}
         </View>
       </View>
 
@@ -68,6 +72,9 @@ export default ({ onStartGame, getHeart }) => {
       <View style={styles.buttonContainer}>
         <Button onPress={clickedRankButton} content={"trophy"} size={vw(20)} />
       </View>
+
+      {/* Animals */}
+      <AnimalScreen />
     </View>
   );
 };
