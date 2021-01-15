@@ -40,3 +40,15 @@ export const FLAG = (
     color={colors.primaryColor}
   />
 );
+
+export const STOP_WATCH = (
+  <Entypo name="stopwatch" size={vh(3.5)} color={colors.accentColor} />
+);
+
+export const BAN = (
+  <FontAwesome name="ban" size={vh(3.5)} color={colors.accentColor} />
+);
+
+export const EYE = (
+  <MaterialCommunityIcons name="eye" size={vh(4)} color={colors.accentColor} />
+);
