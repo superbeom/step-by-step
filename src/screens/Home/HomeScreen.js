@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Modal } from "react-native";
+import { StyleSheet, Text, View, Modal, ImageBackground } from "react-native";
 
 import { useGameInfo } from "../../context/GameContext";
 
 import StartGameScreen from "../Game/StartGameScreen";
+import GameOverScreen from "../Game/GameOverScreen";
 
 export default () => {
   const gameInfo = useGameInfo();
@@ -28,8 +29,19 @@ export default () => {
   };
 
   return (
-    <>
-      <StartGameScreen onStartGame={startGameHandler} getHeart={getHeart} />
+    <ImageBackground
+      style={styles.screen}
+      source={require("../../../assets/images/background.png")}
+    >
+      <View style={styles.body}>
+        {startGame ? (
+          gameOver ? (
+            <GameOverScreen />
+          ) : null
+        ) : (
+          <StartGameScreen onStartGame={startGameHandler} getHeart={getHeart} />
+        )}
+      </View>
 
       <Modal
         animationType="slide"
@@ -40,8 +52,15 @@ export default () => {
           <Text>HI MODAL!</Text>
         </View>
       </Modal>
-    </>
+    </ImageBackground>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
+  body: {
+    flex: 11,
+  },
+});
