@@ -9,12 +9,28 @@ import { vw, vh, vmax } from "react-native-expo-viewport-units";
 
 import colors from "../constants/colors";
 
+export const HOME = (
+  <Entypo name={"home"} size={vw(6.5)} color={colors.whiteColor} />
+);
+
+export const TROPHY = (
+  <Entypo name={"trophy"} size={vw(6.5)} color={colors.whiteColor} />
+);
+
 export const HEART = (
   <MaterialCommunityIcons
     name="cards-heart"
     size={vmax(7)}
     color={colors.redColor}
   />
+);
+
+export const ARROW_UP = (
+  <Entypo name="arrow-up" size={vh(6)} color={colors.whiteColor} />
+);
+
+export const ARROW_RIGHT = (
+  <Entypo name="arrow-right" size={vh(6)} color={colors.whiteColor} />
 );
 
 export const FLAG = (

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Alert, Button } from "react-native";
+import { StyleSheet, Text, View, Alert } from "react-native";
 import { vw, vh } from "react-native-expo-viewport-units";
 
 import { useGameInfo } from "../../context/GameContext";
@@ -10,9 +10,23 @@ import { CURRENT_STAGE, COMING_SOON, CANCEL } from "../../constants/strings";
 import Card from "../../components/Card";
 import StartButton from "../../components/StartButton";
 import Heart from "../../components/Heart";
+import Arrow from "../../components/Arrow";
+import GetHeartText from "../../components/GetHeartText";
+import Button from "../../components/Button";
 
 export default ({ onStartGame, getHeart }) => {
   const { stage, heart, gameEnd } = useGameInfo();
+
+  const clickedRankButton = () => {
+    Alert.alert(
+      COMING_SOON,
+      "",
+      [{ text: CANCEL, onPress: () => null, style: "cancel" }],
+      { cancelable: true }
+    );
+
+    return true;
+  };
 
   return (
     <View style={styles.screen}>
@@ -32,6 +46,14 @@ export default ({ onStartGame, getHeart }) => {
 
         <View style={styles.heartBox}>
           <Heart onPress={getHeart} numOfHeart={heart} disabled={gameEnd} />
+          <>
+            <View style={styles.arrowBox}>
+              <Arrow enoughHeart={false} direction={"up"} />
+            </View>
+            <View>
+              <GetHeartText enoughHeart={false} />
+            </View>
+          </>
         </View>
       </View>
 
@@ -43,7 +65,9 @@ export default ({ onStartGame, getHeart }) => {
         />
       </View>
 
-      <View style={styles.buttonContainer}></View>
+      <View style={styles.buttonContainer}>
+        <Button onPress={clickedRankButton} content={"trophy"} size={vw(20)} />
+      </View>
     </View>
   );
 };
