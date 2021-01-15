@@ -2,22 +2,46 @@ import React from "react";
 import { StyleSheet, Text, View, Alert, Button } from "react-native";
 import { vw, vh } from "react-native-expo-viewport-units";
 
+import { useGameInfo } from "../../context/GameContext";
+
 import colors from "../../constants/colors";
+import { CURRENT_STAGE, COMING_SOON, CANCEL } from "../../constants/strings";
+
+import Card from "../../components/Card";
+import StartButton from "../../components/StartButton";
+import Heart from "../../components/Heart";
 
 export default ({ onStartGame, getHeart }) => {
+  const { stage, heart, gameEnd } = useGameInfo();
+
   return (
     <View style={styles.screen}>
       <View style={styles.gameInfo}>
+        <Card style={styles.card}>
+          {gameEnd ? (
+            <View style={styles.cardBox}>{FLAG}</View>
+          ) : (
+            <View style={styles.cardBox}>
+              <Text style={styles.cardText}>{CURRENT_STAGE}</Text>
+              <Text style={[styles.cardText, { marginTop: vh(1) }]}>
+                {stage}
+              </Text>
+            </View>
+          )}
+        </Card>
+
         <View style={styles.heartBox}>
-          <Button
-            style={{ backgroundColor: "lightpink" }}
-            onPress={getHeart}
-            title="CLICK FOR ME"
-          />
+          <Heart onPress={getHeart} numOfHeart={heart} disabled={gameEnd} />
         </View>
       </View>
 
-      <View style={styles.gameStartContainer}></View>
+      <View style={styles.gameStartContainer}>
+        <StartButton
+          onPress={onStartGame}
+          update={gameEnd}
+          enoughHeart={heart > 0 ?? false}
+        />
+      </View>
 
       <View style={styles.buttonContainer}></View>
     </View>
